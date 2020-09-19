@@ -87,7 +87,7 @@ class ScrapProfile:
         soup = BeautifulSoup(response.text, 'html.parser')
         
         ci_dict = {}
-        
+
         co_name = soup.find('title')
         
         co_name = co_name.text.split('profile')
@@ -95,6 +95,10 @@ class ScrapProfile:
         co_name = " ".join(co_name)
         
         co_name = co_name.strip().split('|')
+
+        if len(co_name) == 1:
+
+            return ("Scrape URL did not find company info...Skipping.", )
         
         ci_dict['name']   = co_name[1].replace("Profile", "")
         
@@ -118,7 +122,7 @@ class ScrapProfile:
 if __name__ == "__main__":
 #######################################
     
-    stock = "HEMP"
+    stock = "EXL.F"
 
     a = ScrapProfile(stock.lower())
     

@@ -441,17 +441,17 @@ class StartPage(tk.Frame):
 
 
 
-            if p.isalpha():
+            # if p.isalpha():
 
-                pass 
+            #     pass 
 
-            else:
+            # else:
 
-                msg = "Input must be all Alphabetic Characters without spaces"
+            #     msg = "Input must be all Alphabetic Characters without spaces"
 
-                popupmsg(msg) 
+            #     popupmsg(msg) 
 
-                return
+            #     return
             
             if len(p) > 5:
 

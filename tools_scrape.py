@@ -70,6 +70,6 @@ class Analysis:
         return self.sentiment, self.subjectivity, self.plot
 
 if __name__ == "__main__":
-    a = Analysis('AMZN')
+    a = Analysis('EXL.F')
     a.run()
-    #DEBUG print(a.term,  '\tsubjectivity', str(a.subjectivity) + '\n', '\t\t\tsentiment' + ' -1 < ', a.sentiment, '< 1')
+    print(a.term,  '\tsubjectivity', str(a.subjectivity) + '\n', '\t\t\tsentiment' + ' -1 < ', a.sentiment, '< 1')

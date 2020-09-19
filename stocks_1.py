@@ -103,16 +103,6 @@ except:
 
     fib                           = 'y'
 
-try:
-
-    import mpl_finance
-
-except:
-
-    os.system('pip install mpl_finance')
-
-    import mpl_finance
-
 from formulas import *
 
 from tools_scrape import *
@@ -660,12 +650,12 @@ if __name__ == '__main__':
         
         else:
         
-            ax1_subject = 'JCP'
+            ax1_subject = 'EXL.F'
         
             ax2_sent_subject = ax1_subject
     else:
         
-        ax1_subject = 'JCP'
+        ax1_subject = 'EXL.F'
         
         ax2_sent_subject = ax1_subject
 
@@ -2046,12 +2036,11 @@ a = ScrapProfile(ax1_subject.lower())
 
 my_dict   = a.run()
 
-my_name   = my_dict["name"]
-
-my_ticker = my_dict["ticker"]
-
-
 try:
+
+    my_name   = my_dict["name"]
+
+    my_ticker = my_dict["ticker"]
 
     my_info   = my_dict["info"]
 

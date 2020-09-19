@@ -12,10 +12,6 @@ TTTTTTTTTT         D D
     TT  o   o      D   D    o   o
     TT  00000      D D      ooooo
 
-1. Add pop-up box when get_data_from_yahoo fails. 
-Tell user able to refresh data and results are 
-from last time this ran successfully.
-
 2. Add S&P400 - scrape and add to Menu bar
 https://www.barchart.com/stocks/indices/sp/sp400?page=all
 
@@ -30,6 +26,22 @@ EARNINGS PER SHARE =
 
 '''
 import os, sys
+
+try:
+
+    import fix_yahoo_finance as yf
+
+    import yfinance
+
+except:
+
+    os.system("pip install yfinance")
+
+    os.system("pip install fix_yahoo_finance")
+
+    import yfinance
+
+    import fix_yahoo_finance as yf
 
 try:
 
@@ -246,7 +258,7 @@ except Exception as e:
     chomf   = 14
 
 
-
+yf.pdr_override
 
 #######################################################
 # Functions (before Main Logic)
@@ -457,15 +469,24 @@ def save_sp500_stocks():
 
     stocks = stocks_wiki # temp code, while we remove the NASDAQ stocks -- 3500 stocks
 
-    print(stocks)
-
     sel_stockz = sel_stocks.split(',')
 
     for in_stock in sel_stockz:
 
         stocks.append(in_stock)
+    
+    stocks.append('MANH')
+
+    stocks.append('JCP')
+
+    stocks.append('ITMC')
+
+    stocks.append('HEMP')
+
+    stocks.append('EXL.F')
 
     stocks = list(set(stocks))
+
 
     stocks.sort()
 
@@ -506,6 +527,12 @@ def get_data_from_yahoo(reload_sp500 = True):
     
         saveFile=('{}'.format(subject) + '.csv')    # The RESUlTS we are saving on a daily basis
 
+        if ('.' in subject) and (subject != "EXL.F"):
+
+            subject = str(subject).replace(".", "-")
+
+            print("subject = " + subject)
+
         if os.path.exists(saveFile):
 
             st = os.stat(saveFile)     #The csv date (created)
@@ -541,9 +568,11 @@ def get_data_from_yahoo(reload_sp500 = True):
 
                     get_fina_summary('{}.csv'.format(subject), subject)
 
-                except:
+                except Exception as e:
 
                     print("tools_build_datawarehouse section: get_data_from_yahoo --> Issue with processing ", subject, "skipping data extract")
+
+                    print(e)
 
         else:
 
@@ -567,10 +596,12 @@ def get_data_from_yahoo(reload_sp500 = True):
 
                 get_fina_summary('{}.csv'.format(subject), subject)
 
-            except:
+            except Exception as e:
 
                 print("tools_build_datawarehouse section: get_data_from_yahoo --> Issue with processing ", subject, "skipping data extract")  
     
+                print(e)
+
 #-------------------------------------------------------#
 def stocks_join_closeprice():
 #-------------------------------------------------------#
@@ -679,7 +710,7 @@ def stocks_join_per():
 
             try:
 
-                df.drop(['Open', 'High','Low','Close', 'Adj_Close', 'Volume', 'MA10', 'MA30', 'RSI', 'MACD', 'EMA9', 'BID',  'ASK', 'TD_VOLUME',  'EPS_RATIO', 'AVERAGE_VOLUME_3MONTH', 'MARKET_CAP', 'DIVIDEND_AND_YIELD', 'ONE_YEAR_TARGET_PRICE'], axis = 1, inplace = True)
+                df.drop(['Open', 'High','Low','Close', 'Adj_Close', 'Volume', 'MA10', 'MA30', 'RSI', 'MACD', 'EMA9', 'TD_VOLUME',  'EPS_RATIO', 'AVERAGE_VOLUME_3MONTH', 'MARKET_CAP', 'DIVIDEND_AND_YIELD', 'ONE_YEAR_TARGET_PRICE'], axis = 1, inplace = True)
             
                 df.replace('', np.nan, inplace = True)
 
@@ -767,5 +798,5 @@ get_data_from_yahoo(True) #Set to true if first time run of want to refresh
 
 stocks_join_closeprice()
 
-#stocks_join_per()
+stocks_join_per()
 
